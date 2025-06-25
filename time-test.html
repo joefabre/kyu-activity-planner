@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Save Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-container { max-width: 600px; margin: 0 auto; }
+        .time-container { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
+        .time-input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .save-btn { padding: 8px 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .status { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        .log { background: #f1f1f1; padding: 10px; border-radius: 4px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Time Save Test</h1>
+        
+        <div class="time-container">
+            <label>Wake up time:</label>
+            <input type="time" id="wake-time" class="time-input" value="07:00">
+            <button id="save-wake" class="save-btn">💾 Save</button>
+        </div>
+        
+        <div class="time-container">
+            <label>Bedtime:</label>
+            <input type="time" id="bed-time" class="time-input" value="21:00">
+            <button id="save-bed" class="save-btn">💾 Save</button>
+        </div>
+        
+        <div class="status">
+            <strong>Status:</strong> <span id="status">Ready</span>
+        </div>
+        
+        <button id="load-test" class="save-btn">🔄 Load Saved Times</button>
+        <button id="clear-test" class="save-btn" style="background: #dc3545;">🗑️ Clear Storage</button>
+        
+        <h3>Console Log:</h3>
+        <div id="log" class="log"></div>
+        
+        <h3>LocalStorage Contents:</h3>
+        <div id="storage" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.textContent += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function updateStorageDisplay() {
+            const storageDiv = document.getElementById('storage');
+            const testData = localStorage.getItem('timeTest');
+            const mondayData = localStorage.getItem('dayData-monday');
+            
+            storageDiv.textContent = `timeTest: ${testData}\ndayData-monday: ${mondayData}`;
+        }
+
+        function saveTime(timeId, activityName) {
+            log(`=== Saving ${activityName} ===`);
+            
+            const timeInput = document.getElementById(timeId);
+            const timeValue = timeInput.value;
+            
+            log(`Time value: ${timeValue}`);
+            
+            try {
+                // Method 1: Simple test storage
+                const testData = JSON.parse(localStorage.getItem('timeTest') || '{}');
+                testData[activityName] = timeValue;
+                localStorage.setItem('timeTest', JSON.stringify(testData));
+                log(`Saved to timeTest: ${JSON.stringify(testData)}`);
+                
+                // Method 2: Same format as main app
+                const mondayData = JSON.parse(localStorage.getItem('dayData-monday') || '{}');
+                mondayData[`${activityName}-time`] = timeValue;
+                localStorage.setItem('dayData-monday', JSON.stringify(mondayData));
+                log(`Saved to dayData-monday: ${JSON.stringify(mondayData)}`);
+                
+                // Verify saves
+                const verifyTest = localStorage.getItem('timeTest');
+                const verifyMonday = localStorage.getItem('dayData-monday');
+                log(`Verify timeTest: ${verifyTest}`);
+                log(`Verify dayData-monday: ${verifyMonday}`);
+                
+                updateStatus(`${activityName} saved successfully!`);
+                updateStorageDisplay();
+                
+            } catch (error) {
+                log(`ERROR: ${error.message}`);
+                updateStatus(`Error saving ${activityName}`);
+            }
+        }
+
+        function loadTimes() {
+            log(`=== Loading Times ===`);
+            
+            try {
+                // Load from test storage
+                const testData = JSON.parse(localStorage.getItem('timeTest') || '{}');
+                log(`Loaded timeTest: ${JSON.stringify(testData)}`);
+                
+                // Load from monday data
+                const mondayData = JSON.parse(localStorage.getItem('dayData-monday') || '{}');
+                log(`Loaded dayData-monday: ${JSON.stringify(mondayData)}`);
+                
+                // Apply to inputs
+                if (testData.wake) {
+                    document.getElementById('wake-time').value = testData.wake;
+                    log(`Set wake time to: ${testData.wake}`);
+                }
+                
+                if (testData.bed) {
+                    document.getElementById('bed-time').value = testData.bed;
+                    log(`Set bed time to: ${testData.bed}`);
+                }
+                
+                updateStatus('Times loaded successfully!');
+                updateStorageDisplay();
+                
+            } catch (error) {
+                log(`ERROR: ${error.message}`);
+                updateStatus('Error loading times');
+            }
+        }
+
+        function clearStorage() {
+            log(`=== Clearing Storage ===`);
+            localStorage.removeItem('timeTest');
+            localStorage.removeItem('dayData-monday');
+            document.getElementById('wake-time').value = '07:00';
+            document.getElementById('bed-time').value = '21:00';
+            updateStatus('Storage cleared');
+            updateStorageDisplay();
+        }
+
+        // Event listeners
+        document.getElementById('save-wake').addEventListener('click', () => {
+            saveTime('wake-time', 'wake');
+        });
+
+        document.getElementById('save-bed').addEventListener('click', () => {
+            saveTime('bed-time', 'bed');
+        });
+
+        document.getElementById('load-test').addEventListener('click', loadTimes);
+        document.getElementById('clear-test').addEventListener('click', clearStorage);
+
+        // Initial setup
+        log('Time Save Test initialized');
+        updateStorageDisplay();
+    </script>
+</body>
+</html>

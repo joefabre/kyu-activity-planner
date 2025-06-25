@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyu's Daily Activity Planner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Kyu's Daily Activity Planner 🌟</h1>
+            <div class="date-display">
+                <span id="current-date"></span>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="daily">Daily Plan</button>
+            <button class="tab-button" data-tab="weekly">Weekly Overview</button>
+            <button class="tab-button" data-tab="settings">Settings</button>
+        </nav>
+
+        <main>
+            <!-- Daily Plan Tab -->
+            <div id="daily-tab" class="tab-content active">
+                <div class="day-selector">
+                    <button class="day-btn" data-day="monday">Mon</button>
+                    <button class="day-btn" data-day="tuesday">Tue</button>
+                    <button class="day-btn" data-day="wednesday">Wed</button>
+                    <button class="day-btn" data-day="thursday">Thu</button>
+                    <button class="day-btn" data-day="friday">Fri</button>
+                    <button class="day-btn" data-day="saturday">Sat</button>
+                    <button class="day-btn" data-day="sunday">Sun</button>
+                </div>
+
+                <div class="current-day">
+                    <h2 id="selected-day">Monday</h2>
+                </div>
+
+                <div class="activity-categories">
+                    <!-- Morning Routine -->
+                    <div class="category">
+                        <h3>🌅 Morning Routine</h3>
+                        <div class="activity-list" data-category="morning">
+                            <div class="activity-item">
+                                <input type="checkbox" id="wake-up" data-activity="wake-up">
+                                <label for="wake-up">Wake up at planned time</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="07:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="brush-teeth-morning" data-activity="brush-teeth-morning">
+                                <label for="brush-teeth-morning">Brush teeth</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="shower" data-activity="shower">
+                                <label for="shower">Shower/wash face</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="get-dressed" data-activity="get-dressed">
+                                <label for="get-dressed">Get dressed</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="breakfast" data-activity="breakfast">
+                                <label for="breakfast">Eat breakfast</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health & Medications -->
+                    <div class="category">
+                        <h3>💊 Health & Medications</h3>
+                        <div class="activity-list" data-category="health">
+                            <div class="activity-item">
+                                <input type="checkbox" id="morning-meds" data-activity="morning-meds">
+                                <label for="morning-meds">Take morning medications</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="08:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="vitamins" data-activity="vitamins">
+                                <label for="vitamins">Take vitamins</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="evening-meds" data-activity="evening-meds">
+                                <label for="evening-meds">Take evening medications</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="19:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Learning & Reading -->
+                    <div class="category">
+                        <h3>📚 Learning & Reading</h3>
+                        <div class="activity-list" data-category="learning">
+                            <div class="activity-item">
+                                <input type="checkbox" id="reading-time" data-activity="reading-time">
+                                <label for="reading-time">Reading time (30 minutes)</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="10:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="summer-homework" data-activity="summer-homework">
+                                <label for="summer-homework">Summer homework/assignments</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="journal" data-activity="journal">
+                                <label for="journal">Write in journal</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="educational-activity" data-activity="educational-activity">
+                                <label for="educational-activity">Educational activity/game</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chores & Responsibilities -->
+                    <div class="category">
+                        <h3>🏠 Chores & Responsibilities</h3>
+                        <div class="activity-list" data-category="chores">
+                            <div class="activity-item">
+                                <input type="checkbox" id="make-bed" data-activity="make-bed">
+                                <label for="make-bed">Make bed</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="tidy-room" data-activity="tidy-room">
+                                <label for="tidy-room">Tidy up room</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="dishes" data-activity="dishes">
+                                <label for="dishes">Help with dishes</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="laundry" data-activity="laundry">
+                                <label for="laundry">Put away clean clothes</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="pet-care" data-activity="pet-care">
+                                <label for="pet-care">Pet care (if applicable)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Care & Grooming -->
+                    <div class="category">
+                        <h3>✨ Personal Care & Grooming</h3>
+                        <div class="activity-list" data-category="grooming">
+                            <div class="activity-item">
+                                <input type="checkbox" id="hair-care" data-activity="hair-care">
+                                <label for="hair-care">Hair care/styling</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="skincare" data-activity="skincare">
+                                <label for="skincare">Skincare routine</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="nail-care" data-activity="nail-care">
+                                <label for="nail-care">Nail care</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="dental-floss" data-activity="dental-floss">
+                                <label for="dental-floss">Floss teeth</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evening Routine -->
+                    <div class="category">
+                        <h3>🌙 Evening Routine</h3>
+                        <div class="activity-list" data-category="evening">
+                            <div class="activity-item">
+                                <input type="checkbox" id="dinner" data-activity="dinner">
+                                <label for="dinner">Eat dinner</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="18:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="brush-teeth-evening" data-activity="brush-teeth-evening">
+                                <label for="brush-teeth-evening">Brush teeth</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="prepare-tomorrow" data-activity="prepare-tomorrow">
+                                <label for="prepare-tomorrow">Prepare for tomorrow</label>
+                            </div>
+                            <div class="activity-item">
+                                <input type="checkbox" id="bedtime" data-activity="bedtime">
+                                <label for="bedtime">Bedtime</label>
+                                <div class="time-container">
+                                    <input type="time" class="time-input" value="21:00">
+                                    <button class="time-save-icon" style="display: none;" title="Save time change">💾</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <h3>Today's Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="progress-text">0% Complete</span>
+                    <div class="progress-buttons">
+                        <button id="save-daily" class="btn save-btn save-daily-btn">💾 Save Today's Plan</button>
+                        <button id="print-daily" class="btn print-btn print-daily-btn">🖨️ Print Today's Plan</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Overview Tab -->
+            <div id="weekly-tab" class="tab-content">
+                <div class="weekly-header">
+                    <h2>Weekly Overview</h2>
+                    <button id="print-weekly" class="btn print-btn">🖨️ Print Weekly Overview</button>
+                </div>
+                <div class="weekly-grid">
+                    <div class="week-day">
+                        <h4>Monday</h4>
+                        <div class="daily-completion" data-day="monday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Tuesday</h4>
+                        <div class="daily-completion" data-day="tuesday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Wednesday</h4>
+                        <div class="daily-completion" data-day="wednesday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Thursday</h4>
+                        <div class="daily-completion" data-day="thursday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Friday</h4>
+                        <div class="daily-completion" data-day="friday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Saturday</h4>
+                        <div class="daily-completion" data-day="saturday">0%</div>
+                    </div>
+                    <div class="week-day">
+                        <h4>Sunday</h4>
+                        <div class="daily-completion" data-day="sunday">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <h2>Settings</h2>
+                <div class="settings-section">
+                    <h3>Customize Activities</h3>
+                    <div class="custom-activity">
+                        <input type="text" id="new-activity" placeholder="Add custom activity...">
+                        <select id="activity-category">
+                            <option value="morning">Morning Routine</option>
+                            <option value="health">Health & Medications</option>
+                            <option value="learning">Learning & Reading</option>
+                            <option value="chores">Chores & Responsibilities</option>
+                            <option value="grooming">Personal Care & Grooming</option>
+                            <option value="evening">Evening Routine</option>
+                        </select>
+                        <button id="add-activity-btn">Add Activity</button>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Preferences</h3>
+                    <div class="setting-item">
+                        <label for="theme-select">Theme:</label>
+                        <select id="theme-select">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark Mode</option>
+                            <option value="pastel">Pastel</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="reset-time">Daily Reset Time:</label>
+                        <input type="time" id="reset-time" value="06:00">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <div class="data-management-grid">
+                        <button id="save-data" class="btn save-btn">💾 Save Data</button>
+                        <button id="export-data" class="btn">📤 Export Backup</button>
+                        <button id="import-data" class="btn">📥 Import Backup</button>
+                        <button id="print-schedule" class="btn print-btn">🖨️ Print Schedule</button>
+                    </div>
+                    <input type="file" id="import-file" accept=".json" style="display: none;">
+                    
+                    <div class="save-status" id="save-status">
+                        <span class="save-indicator">✅ Data saved automatically</span>
+                        <div class="last-save">Last saved: <span id="last-save-time">Never</span></div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Quick Save Slots</h3>
+                    <div class="save-slots">
+                        <div class="save-slot">
+                            <h4>Save Slot 1</h4>
+                            <div class="slot-info" id="slot-1-info">Empty</div>
+                            <div class="slot-actions">
+                                <button class="btn save-to-slot" data-slot="1">💾 Save Here</button>
+                                <button class="btn load-from-slot" data-slot="1" disabled>📂 Load</button>
+                                <button class="btn delete-slot" data-slot="1" disabled>🗑️ Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="save-slot">
+                            <h4>Save Slot 2</h4>
+                            <div class="slot-info" id="slot-2-info">Empty</div>
+                            <div class="slot-actions">
+                                <button class="btn save-to-slot" data-slot="2">💾 Save Here</button>
+                                <button class="btn load-from-slot" data-slot="2" disabled>📂 Load</button>
+                                <button class="btn delete-slot" data-slot="2" disabled>🗑️ Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="save-slot">
+                            <h4>Save Slot 3</h4>
+                            <div class="slot-info" id="slot-3-info">Empty</div>
+                            <div class="slot-actions">
+                                <button class="btn save-to-slot" data-slot="3">💾 Save Here</button>
+                                <button class="btn load-from-slot" data-slot="3" disabled>📂 Load</button>
+                                <button class="btn delete-slot" data-slot="3" disabled>🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
